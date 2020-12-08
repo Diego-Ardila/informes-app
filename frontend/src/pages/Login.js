@@ -10,7 +10,7 @@ import logo from "../kuepa-logo.png"
 
 
 const formSchema = Yup.object().shape({
-    email: Yup.string().required("campo requerido"),
+    user: Yup.string().required("campo requerido"),
     password: Yup.string().required("campo requerido")
 })
 
@@ -40,9 +40,9 @@ function Login() {
                 <Form.Row className="justify-content-center mt-3">
                     <Col className="col-lg-6" >
                       <Form.Group className="text-left" controlId="formBasicEmail">
-                        <Form.Label style={{color:"white"}} >Email</Form.Label>
-                        <Form.Control name="email" ref={register} type="email" placeholder="Escriba su email" className={ errors.email ? "is-invalid" : null}/>
-                        { errors.email && <div className="error-message">{errors.email.message}</div>}
+                        <Form.Label style={{color:"white"}} >Usario</Form.Label>
+                        <Form.Control name="user" ref={register} type="text" placeholder="Escriba su usuario" className={ errors.user ? "is-invalid" : null}/>
+                        { errors.user && <div style={{color:"white"}} className="error-message">{errors.user.message}</div>}
                         <Form.Text className="text-muted">
                         Nunca compartiremos tu correo con nadie.
                         </Form.Text>
@@ -54,7 +54,7 @@ function Login() {
                       <Form.Group className="text-left" controlId="formBasicPassword">
                         <Form.Label style={{color:"white"}}>Contraseña</Form.Label>
                         <Form.Control name="password" ref={register} type="password" placeholder="XXXXXX" className={ errors.password ? "is-invalid" : null} />
-                        { errors.password && <div className="error-message">{errors.password.message}</div>}
+                        { errors.password && <div style={{color:"white"}} className="error-message">{errors.password.message}</div>}
                       </Form.Group>
                     </Col>
                 </Form.Row>
