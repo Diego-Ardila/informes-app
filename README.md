@@ -5,13 +5,21 @@ Proyecto Full Stack Realizado con React, Express, Socket.io y Mongo DB.
 Para ejercer buenas practicas en el proyecto decidí usar variables de entorno las cuales especifico a continuacion para que se pueda correr la aplicacion sin problemas:
 
 ## Front end : 
+```
 Carpeta: .env
+```
+```
 Variables: REACT_APP_SERVER_URL="http://localhost:8000"
+```
 
 ## Back end :
+```
 Carpeta: .env.dev
+```
+```
 Variables: SECRET_KEY = "SHHHHHHHH" => para crear el JWT
            PORT = 8000
+```
 
 ## Instalacion del proyecto
 Primero que todo debes iniciar tu base de datos desde la consola de mongod;
