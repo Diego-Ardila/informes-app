@@ -1,9 +1,10 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {Col, Button, Card, Form, Container} from "react-bootstrap";
+import {Col, Button, Card, Form, Container, Row} from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import {getUser} from '../utils/httpRequests';
 import styled from "styled-components";
 import  swal  from "sweetalert";
+import Stream from '../components/Stream';
 
 
 function ClassRoom() {
@@ -27,7 +28,14 @@ function ClassRoom() {
   return (
     <Container className="mt-3">
       <h3 style={{color:"whitesmoke"}}>Bienvenido(a) {user && user.name} a tu clase de Hoy</h3>
-
+      <Row className="mt-5 justify-content-center">
+        <Col md={12} lg={7}>
+          <Stream/>
+        </Col>
+        <Col md={12} lg={5}>
+          <Card></Card>
+        </Col>
+      </Row>
     </Container>
   );
 }
