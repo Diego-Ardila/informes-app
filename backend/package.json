@@ -4,6 +4,14 @@
   "main": "server.js",
   "author": "Diego Ardila",
   "license": "MIT",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "engines": {
+    "node": ">=13",
+    "yarn": ">=1.22"
+  },
   "dependencies": {
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
@@ -14,5 +22,8 @@
     "mongoose": "^5.11.5",
     "morgan": "^1.10.0",
     "socket.io": "^3.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }
