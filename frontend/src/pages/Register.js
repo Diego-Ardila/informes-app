@@ -36,7 +36,7 @@ function Register() {
       }
     return (
         <Container>
-            <Row className="justify-content-md-center mt-3 mb-5 ">
+            <Row className="justify-content-md-center mt-3">
                 <Col className="card p-3" md={4} sm={11}>
                 <Form onSubmit={handleSubmit(onSubmit)}  noValidate>
                     <Form.Group className="text-left">
