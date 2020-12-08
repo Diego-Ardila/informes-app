@@ -11,7 +11,6 @@ import swal from 'sweetalert';
 const formSchema = Yup.object().shape({   
     name: Yup.string().required("Campo Requerido"),
     user: Yup.string().required("Campo Requerido"),
-    phoneNumber: Yup.number().typeError('Debes ingresar solo numeros').test('len', 'Debes ingresar al menos 10 numeros', val => val && val.toString().length >= 10 ),
     password: Yup.string().required("Campo Requerido"),
     v_password: Yup.string().oneOf([Yup.ref('password')], "Las contraseñas deben coincidir").required("Campo Requerido")
 })
@@ -25,10 +24,10 @@ function Register() {
       const onSubmit= async (data)=>{
           try{
             isSubmitting= true
-            const {token} = await createUser(data)
+            const token = await createUser(data)
             localStorage.setItem("token", token)
             swal("Registro Satisfactorio","Tu usuario fue creado satisfactoriamente","success")
-            history.push("/user")
+            history.push("/classRoom")
           }catch(err){
               swal("Error",`${err.response.data}`,"error")
               isSubmitting= false

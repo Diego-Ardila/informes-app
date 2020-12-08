@@ -22,8 +22,9 @@ function Login() {
     const onSubmit = async (data)=>{
         try{
         isSubmitting = true
-        const {token} = await login(data)
+        const token = await login(data)
         localStorage.setItem("token", token)
+        swal("Registro Satisfactorio","Ya podras iniciar tu clase vigente","success")
         history.push('/classRoom')
         }catch(err){
             swal("Error",`${err.response.data}`,"error")
