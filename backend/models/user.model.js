@@ -1,12 +1,14 @@
 const { Schema , model, models } = require("mongoose");
 
-
+//Essquema de la entidad de usuarios
 const userSchema = new Schema ({
+    //Nombre completo del usuario, no importa si otros usuarios tienen el mismo
     name:{
         type: String,
         required: true,
         trim: true
     },
+    //Nickname del usuario, debe ser unico!
     user:{
         type: String,
         required: true,
@@ -26,6 +28,7 @@ const userSchema = new Schema ({
         type: String,
         required: true,
     },
+    //Tipo de usuario: Estudiante o Moderador
     userType: {
         type: String,
         required: true,
