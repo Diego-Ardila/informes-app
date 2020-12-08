@@ -5,6 +5,7 @@ import {getUser} from '../utils/httpRequests';
 import styled from "styled-components";
 import  swal  from "sweetalert";
 import Stream from '../components/Stream';
+import Chat from '../components/Chat';
 
 
 function ClassRoom() {
@@ -12,7 +13,7 @@ function ClassRoom() {
     const history = useHistory()
 
     useEffect(()=>{
-        const getData = (async()=>{
+        (async ()=>{
           try{
             const token = localStorage.getItem("token")
             const newUser = await getUser(token)
@@ -33,7 +34,7 @@ function ClassRoom() {
           <Stream/>
         </Col>
         <Col md={12} lg={5}>
-          <Card></Card>
+          <Chat user={user} />
         </Col>
       </Row>
     </Container>
