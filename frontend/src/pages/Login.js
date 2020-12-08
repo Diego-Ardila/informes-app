@@ -8,17 +8,19 @@ import swal from 'sweetalert';
 import {Link, useHistory} from 'react-router-dom';
 import logo from "../kuepa-logo.png"
 
-
+//Esquema de Validaciones del formulario
 const formSchema = Yup.object().shape({
     user: Yup.string().required("campo requerido"),
     password: Yup.string().required("campo requerido")
 })
 
+//Componente que renderiza el Formulario del login con sus respectivas validaciones
 function Login() {
     const history = useHistory()
     let { register, handleSubmit, errors, formState:{isSubmitting} } = useForm({
         resolver: yupResolver(formSchema)
       });
+    //Callback que envia la data recogida de los input para ser procesada en la base de datos
     const onSubmit = async (data)=>{
         try{
         isSubmitting = true

@@ -9,7 +9,7 @@ const cors = require("cors");
 const userRouter = require('./routes/user.routes');
 const Message = require("./models/message.model");
 
-//Inicializacion de socket.io y su respectiva conexion con el servidor
+//Inicializacion de socket.io y su respectiva conexion con el servidor, se tuvo que agregar una configuracion de cors
 const options={
   cors:true,
   origins:["http://localhost:3000"],
@@ -31,7 +31,6 @@ app.use(helmet())
 app.use("/user", userRouter)
 
 //Web Sockets
-
 io.of("Class-1").on("connection", async (socket) => {
 
   try{

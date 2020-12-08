@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect, useHistory } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Login from './pages/Login';
 import Header from './pages/Header';
 import Register from './pages/Register';
@@ -7,8 +7,8 @@ import ClassRoom from './pages/ClassRoom';
 import PrivateRoute from './components/PrivateRoute';
 import './App.css';
 
+//Componente principal que maneja el enrutamiento de la aplicacion
 function App() {
-
 
   return (
     <div className="App">

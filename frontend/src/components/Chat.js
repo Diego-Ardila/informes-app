@@ -1,9 +1,9 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {Button, Card, Form, Row} from "react-bootstrap";
+import {Button, Card, Form} from "react-bootstrap";
 import styled from "styled-components";
 import io from "socket.io-client";
 
-
+//Creacion de componentes estiliados usando styled components
 const MyRow = styled.div`
 width: 100%;
 display: flex;
@@ -51,14 +51,16 @@ color: lightgray;
 text-align: center;
 `;
 
-
+//Componente que maneja toda la logica del Chat
 function Chat ({user}) {
+  //Referencia del elemento al cual se le hara el Scroll down automatico segun se van agregando mas mensajes
   const messageEl = useRef(null);
   const [text, setText] = useState("")
   const [messages, setMessages] = useState([])
   const socketRef = useRef()
 
-
+//Tan pronto se monta el componente se establece conexion con web sockets, como solo hay una clase el namespace esta quemado 
+//como Class-1, y se encarga de primero escuchar los mensajes que estan guardados en la base de datos y tambien escuchar los nuevos mensajes
   useEffect(()=>{
     socketRef.current = io.connect(`${process.env.REACT_APP_SERVER_URL}/Class-1`)
     socketRef.current.on("database messages", msjs => {
@@ -71,6 +73,7 @@ function Chat ({user}) {
     })
   },[])
 
+//Funcion encargada de hacer el Scroll Down automatico ante cada mensaje nuevo
   useEffect(() => {
     if (messageEl) {
       messageEl.current.addEventListener('DOMNodeInserted', event => {
@@ -84,7 +87,7 @@ function Chat ({user}) {
     setText(e.target.value)
   }
 
-
+//Callback que envia el nuevo mensaje a la Base de datos
   const handleChatSubmit = (e) => {
     e.preventDefault()
     const newObj = {

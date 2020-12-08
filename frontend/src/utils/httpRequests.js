@@ -1,5 +1,7 @@
+//Modulo que almacena todas las peticiones HTTP
 import axios from "axios";
 
+//Creacion de un nuevo usuario, retorna un token de autenticacion 
 export const createUser= async (data) => {
     try{
         const response = await axios({
@@ -15,6 +17,7 @@ export const createUser= async (data) => {
     }
 }
 
+//Autenticacion de un usuario ya existente, retorna un token de autenticacion
 export const login= async (data) => {
     try{
         const response = await axios({
@@ -30,6 +33,7 @@ export const login= async (data) => {
     }
 }
 
+//Llamado a la base de datos para validar la vigencia del token almacenado en el localstorage del navegador
 export const getUser= async (token) => {
     try{
         const response = await axios({

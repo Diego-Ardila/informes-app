@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import {createUser} from '../utils/httpRequests';
 import swal from 'sweetalert';
 
-
+//Esquema de Validaciones del formulario, incluyendo si las contraseñas coinciden
 const formSchema = Yup.object().shape({   
     name: Yup.string().required("Campo Requerido"),
     user: Yup.string().required("Campo Requerido"),
@@ -15,12 +15,15 @@ const formSchema = Yup.object().shape({
     v_password: Yup.string().oneOf([Yup.ref('password')], "Las contraseñas deben coincidir").required("Campo Requerido")
 })
 
+//Componente que se encarga de Renderizar el formulario de registro, con sus respectivas validaciones, 
+//incluyendo la revision en base de datos de que no se este ingresando un nombre de usuario(nickname) repetido
 function Register() {
     const history = useHistory()
     let { register, handleSubmit, errors, formState:{isSubmitting} } = useForm({
         resolver: yupResolver(formSchema)
     });
 
+    //Callback que envia la data recogida de los input para ser procesada en la base de datos
       const onSubmit= async (data)=>{
           try{
             isSubmitting= true
