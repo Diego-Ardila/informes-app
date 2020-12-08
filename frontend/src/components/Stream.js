@@ -7,7 +7,7 @@ import ReactPlayer from 'react-player';
 function Stream() {
 
   return (
-    <Container>
+    <Container className="mt-3">
         <ReactPlayer width="auto" height="300px" url="https://youtu.be/i0Ot3flriJI"/>
     </Container>
   );

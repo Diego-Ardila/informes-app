@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {Button, Card, Form} from "react-bootstrap";
+import {Button, Card, Form, Row} from "react-bootstrap";
 import styled from "styled-components";
 import io from "socket.io-client";
 
@@ -14,7 +14,7 @@ margin-top: 10px;
 const MyMessage = styled.div`
 width: 45%;
 background-color: #c7d40a;
-color: #46516e;
+color: black;
 padding: 10px;
 margin-right: 5px;
 text-align: center;
@@ -28,19 +28,32 @@ justify-content: flex-start;
 
 const PartnerMessage = styled.div`
 width: 45%;
+display: "grid";
+grid-template-rows: 20px 30px;
 background-color: transparent;
-color: lightgray;
 border: 1px solid lightgray;
-padding: 10px;
+padding: 5px;
 margin-left: 5px;
-text-align: center;
 border-top-left-radius: 10%;
 border-bottom-left-radius: 10%;
 `;
 
+const Name = styled.p`
+grid-row: 1;
+color: yellow;
+text-align: start;
+margin: 0;
+`;
+
+const Text = styled.p`
+grid-row: 2;
+color: lightgray;
+text-align: center;
+`;
+
 
 function Chat ({user}) {
-
+  const messageEl = useRef(null);
   const [text, setText] = useState("")
   const [messages, setMessages] = useState([])
   const socketRef = useRef()
@@ -48,11 +61,24 @@ function Chat ({user}) {
 
   useEffect(()=>{
     socketRef.current = io.connect(`${process.env.REACT_APP_SERVER_URL}/Class-1`)
-    socketRef.current.on("messages", msjs => {
+    socketRef.current.on("database messages", msjs => {
         setMessages(msjs)
         console.log(msjs)
       })
+    socketRef.current.on("new messages", msj => {
+        setMessages(prevMsjs => prevMsjs.concat(msj))
+        console.log(msj)
+    })
   },[])
+
+  useEffect(() => {
+    if (messageEl) {
+      messageEl.current.addEventListener('DOMNodeInserted', event => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+      });
+    }
+  }, [])
 
   const handleChange = (e) => {
     setText(e.target.value)
@@ -62,7 +88,7 @@ function Chat ({user}) {
   const handleChatSubmit = (e) => {
     e.preventDefault()
     const newObj = {
-      userName: user.name,
+      userName: user.user,
       moderator: user.userType === "moderator",
       text
     }
@@ -71,10 +97,10 @@ function Chat ({user}) {
   }
 
     return (
-            <Card className="bg-dark" style={{ height: '18rem', overflow:"auto" }}>
-              <Card.Body>
+            <Card className="mt-3">
+              <Card.Body ref={messageEl} style={{ height: '18rem', overflow:"auto" }}>
               {messages.map((message, index) => {
-                if (message.userName === user.name) {
+                if (message.userName === user.user) {
                   return (
                     <MyRow key={index}>
                       <MyMessage>
@@ -85,10 +111,10 @@ function Chat ({user}) {
                 }
                 return (
                   <PartnerRow key={index}>
-                    {message.userName}
-                    <PartnerMessage>
-                      {message.text}
-                    </PartnerMessage>
+                        <PartnerMessage>
+                            <Name>{message.userName} {message.moderator && "(moderador)"}</Name>
+                            <Text>{message.text}</Text>
+                        </PartnerMessage>
                   </PartnerRow>
                 )
               })}
@@ -96,7 +122,7 @@ function Chat ({user}) {
               <Card.Footer className="justify-content-md-center">
                 <Form onSubmit={handleChatSubmit}>
                 <Form.Control value={text} onChange={handleChange} type="text" rows={2} />
-                <Button className="bg-primary" type="submit" >Enviar</Button>
+                <Button variant="outline-warning" className="m-3" type="submit" >Enviar</Button>
                 </Form>
               </Card.Footer>
             </Card>
