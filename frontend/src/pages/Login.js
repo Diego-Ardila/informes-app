@@ -32,10 +32,10 @@ function Login() {
       localStorage.setItem("token", token);
       swal(
         "Registro Satisfactorio",
-        "Ya podras iniciar tu clase vigente",
+        "Ya podras descargar los informes de tu grupo",
         "success"
       );
-      history.push("/classRoom");
+      history.push("/comentarios");
     } catch (err) {
       swal("Error", `${err.response.data}`, "error");
     }
@@ -45,7 +45,7 @@ function Login() {
       <Form onSubmit={handleSubmit(onSubmit)} className="card mt-5 p-3">
         <Form.Row className="mt-5 justify-content-center">
           <Col sm={6} md={4} className="text-center">
-            <h3 style={{ color: "white" }}>Classroom chat</h3>
+            <h3 style={{ color: "white" }}>Informes de servicio</h3>
           </Col>
         </Form.Row>
         <Form.Row className="justify-content-center mt-3">

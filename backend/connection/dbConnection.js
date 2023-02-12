@@ -2,7 +2,7 @@ const { connection, connect } = require("mongoose");
 
 function db() {
   //setUp de las variables
-  const uri = process.env.DB_URI || "mongodb://127.0.0.1:27017/classroom-chat";
+  const uri = process.env.DB_URI || "mongodb://127.0.0.1:27017/reports";
 
   const options = {
     useNewUrlParser: true,

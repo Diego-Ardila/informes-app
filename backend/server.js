@@ -7,6 +7,8 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
 const userRouter = require("./routes/user.routes");
+const groupsRouter = require("./routes/groups.routes");
+const reportRouter = require("./routes/report.routes");
 const Message = require("./models/message.model");
 
 //Inicializacion de socket.io y su respectiva conexion con el servidor, se tuvo que agregar una configuracion de cors
@@ -29,6 +31,8 @@ app.use(helmet());
 
 //End points
 app.use("/user", userRouter);
+app.use("/groups", groupsRouter);
+app.use("/report", reportRouter);
 
 //Web Sockets
 io.of("Class-1").on("connection", async (socket) => {

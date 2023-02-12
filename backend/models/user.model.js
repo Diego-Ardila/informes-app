@@ -1,44 +1,46 @@
-const { Schema , model, models } = require("mongoose");
+const { Schema, model, models } = require("mongoose");
 
 //Essquema de la entidad de usuarios
-const userSchema = new Schema ({
+const userSchema = new Schema(
+  {
     //Nombre completo del usuario, no importa si otros usuarios tienen el mismo
-    name:{
-        type: String,
-        required: true,
-        trim: true
+    name: {
+      type: String,
+      required: true,
+      trim: true,
     },
     //Nickname del usuario, debe ser unico!
-    user:{
-        type: String,
-        required: true,
-        validate: {
-            async validator(user){
-                try{
-                  const userName = await models.User.findOne({user})
-                  return !userName
-                }catch(err){
-                    return false
-                }
-            },
-            message:"El nombre de Usuario ya existe"
-        }
+    user: {
+      type: String,
+      required: true,
+      validate: {
+        async validator(user) {
+          try {
+            const userName = await models.User.findOne({ user });
+            return !userName;
+          } catch (err) {
+            return false;
+          }
+        },
+        message: "El nombre de Usuario ya existe",
+      },
     },
     password: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     //Tipo de usuario: Estudiante o Moderador
-    userType: {
-        type: String,
-        required: true,
-    }
-},{
-    timestamps: true
-})
+    groupId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Groups",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
+const User = new model("User", userSchema);
 
-
-const User = new model("User", userSchema)
-
-module.exports = User
+module.exports = User;

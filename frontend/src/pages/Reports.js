@@ -4,31 +4,44 @@ import * as Yup from "yup";
 import { Container, Form, Button, Col, Spinner, Row } from "react-bootstrap";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { createUser, getGroups } from "../utils/httpRequests";
+import { createReport, getGroups } from "../utils/httpRequests";
 import swal from "sweetalert";
 
 //Esquema de Validaciones del formulario, incluyendo si las contraseñas coinciden
 const formSchema = Yup.object().shape({
   name: Yup.string().required("Campo Requerido"),
-  user: Yup.string().required("Campo Requerido"),
-  password: Yup.string().required("Campo Requerido"),
-  v_password: Yup.string()
-    .oneOf([Yup.ref("password")], "Las contraseñas deben coincidir")
-    .required("Campo Requerido"),
-  keyWord: Yup.string()
-    .matches(/Reino1914/, "Palabra clave incorrecta")
-    .required("Campo Requerido"),
+  publications: Yup.string().required("Campo Requerido"),
+  videos: Yup.string().required("Campo Requerido"),
+  hours: Yup.string().required("Campo Requerido"),
+  revisits: Yup.string().required("Campo Requerido"),
+  students: Yup.string().required("Campo Requerido"),
+  month: Yup.string().required("Campo Requerido"),
 });
+
+const months = [
+  "Enero",
+  "Febrero",
+  "Marzo",
+  "Abril",
+  "Mayo",
+  "Junio",
+  "Julio",
+  "Agosto",
+  "Septiembre",
+  "Octubre",
+  "Noviembre",
+  "Diciembre",
+];
 
 //Componente que se encarga de Renderizar el formulario de registro, con sus respectivas validaciones,
 //incluyendo la revision en base de datos de que no se este ingresando un nombre de usuario(nickname) repetido
 function Register() {
-  const history = useHistory();
   let {
     register,
     handleSubmit,
     errors,
     formState: { isSubmitting },
+    reset,
   } = useForm({
     resolver: yupResolver(formSchema),
   });
@@ -47,24 +60,48 @@ function Register() {
   const onSubmit = async (data) => {
     try {
       isSubmitting = true;
-      const token = await createUser(data);
-      localStorage.setItem("token", token);
+      await createReport({
+        ...data,
+        year: new Date().getFullYear(),
+      });
       swal(
         "Registro Satisfactorio",
-        "Tu usuario fue creado satisfactoriamente",
+        "Tu informe fue creado satisfactoriamente",
         "success"
       );
-      history.push("/classRoom");
+      reset();
     } catch (err) {
       swal("Error", `${err.response.data}`, "error");
       isSubmitting = false;
     }
   };
+
+  const getDefaultMonth = () => {
+    const currentMonth = new Date().getMonth();
+    return currentMonth ? currentMonth - 1 : 11;
+  };
+
   return (
     <Container>
       <Row className="justify-content-md-center mt-3">
         <Col className="card p-3 mb-5" md={4} sm={11}>
           <Form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <Form.Group className="text-left">
+              <Form.Label style={{ color: "white" }}>Mes</Form.Label>
+              <Form.Control
+                name="month"
+                ref={register({ required: true })}
+                as="select"
+                defaultValue={getDefaultMonth()}
+              >
+                {months.map((month, index) => (
+                  <option key={index} value={index}>
+                    {" "}
+                    {month}{" "}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
             <Form.Group className="text-left">
               <Form.Label style={{ color: "white" }}>Nombre</Form.Label>
               <Form.Control
@@ -81,69 +118,89 @@ function Register() {
               )}
             </Form.Group>
             <Form.Group className="text-left">
-              <Form.Label style={{ color: "white" }}>Usuario</Form.Label>
+              <Form.Label style={{ color: "white" }}>Publicaciones</Form.Label>
               <Form.Control
                 ref={register}
-                name="user"
-                type="text"
-                placeholder="Ingresa tu usuario, debe ser Unico"
-                className={errors.user ? "is-invalid" : null}
+                name="publications"
+                type="number"
+                defaultValue={0}
+                placeholder="Ingresa tu numero de publicaciones"
+                className={errors.publications ? "is-invalid" : null}
               />
-              {errors.user && (
+              {errors.publications && (
                 <div style={{ color: "red" }} className="error-message">
-                  {errors.user.message}
+                  {errors.publications.message}
                 </div>
               )}
             </Form.Group>
             <Form.Group className="text-left">
-              <Form.Label style={{ color: "white" }}>Contraseña</Form.Label>
+              <Form.Label style={{ color: "white" }}>Videos</Form.Label>
               <Form.Control
                 ref={register}
-                name="password"
-                type="password"
-                placeholder="Ingresa tu Contraseña"
-                className={errors.password ? "is-invalid" : null}
+                name="videos"
+                type="number"
+                defaultValue={0}
+                placeholder="Ingresa la cantidad de videos"
+                className={errors.videos ? "is-invalid" : null}
               />
-              {errors.password && (
+              {errors.videos && (
                 <div style={{ color: "red" }} className="error-message">
-                  {errors.password.message}
+                  {errors.videos.message}
+                </div>
+              )}
+            </Form.Group>
+            <Form.Group className="text-left">
+              <Form.Label style={{ color: "white" }}>Horas</Form.Label>
+              <Form.Control
+                ref={register}
+                name="hours"
+                type="number"
+                defaultValue={0}
+                placeholder="Ingresa el numero de horas"
+                className={errors.hours ? "is-invalid" : null}
+              />
+              {errors.hours && (
+                <div style={{ color: "red" }} className="error-message">
+                  {errors.hours.message}
+                </div>
+              )}
+            </Form.Group>
+            <Form.Group className="text-left">
+              <Form.Label style={{ color: "white" }}>Revisitas</Form.Label>
+              <Form.Control
+                ref={register}
+                name="revisits"
+                type="number"
+                defaultValue={0}
+                placeholder="Ingresa la cantidad de revisitas"
+                className={errors.revisits ? "is-invalid" : null}
+              />
+              {errors.revisits && (
+                <div style={{ color: "red" }} className="error-message">
+                  {errors.revisits.message}
+                </div>
+              )}
+            </Form.Group>
+            <Form.Group className="text-left">
+              <Form.Label style={{ color: "white" }}>Estudios</Form.Label>
+              <Form.Control
+                ref={register}
+                name="students"
+                type="number"
+                defaultValue={0}
+                placeholder="Ingresa la cantidad de estudios biblicos"
+                className={errors.students ? "is-invalid" : null}
+              />
+              {errors.students && (
+                <div style={{ color: "red" }} className="error-message">
+                  {errors.students.message}
                 </div>
               )}
             </Form.Group>
             <Form.Group className="text-left">
               <Form.Label style={{ color: "white" }}>
-                Validar Contraseña
+                Grupo al que pertenece
               </Form.Label>
-              <Form.Control
-                ref={register}
-                name="v_password"
-                type="password"
-                placeholder="Ingresa nuevamente tu Contraseña"
-                className={errors.v_password ? "is-invalid" : null}
-              />
-              {errors.v_password && (
-                <div style={{ color: "red" }} className="error-message">
-                  {errors.v_password.message}
-                </div>
-              )}
-            </Form.Group>
-            <Form.Group className="text-left">
-              <Form.Label style={{ color: "white" }}>Palabra clave</Form.Label>
-              <Form.Control
-                ref={register}
-                name="keyWord"
-                type="password"
-                placeholder="Ingresa la palabra clave"
-                className={errors.keyWord ? "is-invalid" : null}
-              />
-              {errors.keyWord && (
-                <div style={{ color: "red" }} className="error-message">
-                  {errors.keyWord.message}
-                </div>
-              )}
-            </Form.Group>
-            <Form.Group className="text-left">
-              <Form.Label style={{ color: "white" }}>Grupo numero</Form.Label>
               <Form.Control
                 name="groupId"
                 ref={register({ required: true })}
