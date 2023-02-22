@@ -35,7 +35,7 @@ function Login() {
         "Ya podras descargar los informes de tu grupo",
         "success"
       );
-      history.push("/comentarios");
+      history.push("/generar-reporte");
     } catch (err) {
       swal("Error", `${err.response.data}`, "error");
     }

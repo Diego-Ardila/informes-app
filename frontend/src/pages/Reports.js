@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { createReport, getGroups } from "../utils/httpRequests";
 import swal from "sweetalert";
+import { monthsList } from "../utils/constants";
 
 //Esquema de Validaciones del formulario, incluyendo si las contraseñas coinciden
 const formSchema = Yup.object().shape({
@@ -17,21 +18,6 @@ const formSchema = Yup.object().shape({
   students: Yup.string().required("Campo Requerido"),
   month: Yup.string().required("Campo Requerido"),
 });
-
-const months = [
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
-];
 
 //Componente que se encarga de Renderizar el formulario de registro, con sus respectivas validaciones,
 //incluyendo la revision en base de datos de que no se este ingresando un nombre de usuario(nickname) repetido
@@ -94,10 +80,9 @@ function Register() {
                 as="select"
                 defaultValue={getDefaultMonth()}
               >
-                {months.map((month, index) => (
+                {monthsList.map((month, index) => (
                   <option key={index} value={index}>
-                    {" "}
-                    {month}{" "}
+                    {month}
                   </option>
                 ))}
               </Form.Control>

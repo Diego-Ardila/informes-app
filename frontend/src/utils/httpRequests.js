@@ -74,3 +74,25 @@ export const createReport = async (data) => {
     throw err;
   }
 };
+
+export const getReport = async ({ month, year, groupId, token }) => {
+  try {
+    const response = await axios({
+      method: "GET",
+      baseURL: process.env.REACT_APP_SERVER_URL,
+      url: "/report",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        month,
+        year,
+        groupId,
+      },
+      responseType: "blob",
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};

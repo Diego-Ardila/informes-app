@@ -20,8 +20,8 @@ function Header() {
         <Nav className="ml-3 mr-auto">
           <Nav.Link href="/login">Inicio sesion</Nav.Link>
           <Nav.Link href="/registro">Nuevo Moderador</Nav.Link>
-          <Nav.Link href="/report">Informe</Nav.Link>
-          <Nav.Link href="/comentarios">Comentarios</Nav.Link>
+          <Nav.Link href="/report">Enviar Informe</Nav.Link>
+          <Nav.Link href="/generar-reporte">Descargar Informe</Nav.Link>
         </Nav>
         <Nav className="justify-content-end">
           <Nav.Link href="/logout">Cerrar sesion</Nav.Link>
