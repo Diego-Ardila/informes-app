@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { getGroups, getReport } from "../utils/httpRequests";
 import swal from "sweetalert";
 import { monthsList } from "../utils/constants";
+import { useHistory } from "react-router-dom";
 
 //Esquema de Validaciones del formulario
 const formSchema = Yup.object().shape({
@@ -15,7 +16,8 @@ const formSchema = Yup.object().shape({
 });
 
 //Componente que renderiza el Formulario del login con sus respectivas validaciones
-function Login() {
+function GetReport() {
+  const history = useHistory();
   let {
     register,
     handleSubmit,
@@ -52,11 +54,22 @@ function Login() {
       link.click();
       document.body.removeChild(link);
     } catch (err) {
-      const message =
-        err.response.data instanceof Blob
-          ? await err.response.data?.text()
-          : "Hubo un error, vuelve a intentarlo";
-      swal("Error", `${message}`, "error");
+      if (err.response.status === 401) {
+        swal(
+          "No estas autorizado",
+          `Debes registrarte para acceder aqui`,
+          "error"
+        );
+        //Si el token no es valido, se procedera a eliminar del almacenamiento del navegador
+        localStorage.removeItem("token");
+        history.push("/login");
+      } else {
+        const message =
+          err.response.data instanceof Blob
+            ? await err.response.data?.text()
+            : "Hubo un error, vuelve a intentarlo";
+        swal("Error", `${message}`, "error");
+      }
     }
   };
 
@@ -155,4 +168,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default GetReport;
