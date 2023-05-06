@@ -8,7 +8,6 @@ import { createReport, getGroups } from "../utils/httpRequests";
 import swal from "sweetalert";
 import { monthsList } from "../utils/constants";
 
-//Esquema de Validaciones del formulario, incluyendo si las contraseñas coinciden
 const formSchema = Yup.object().shape({
   name: Yup.string().required("Campo Requerido"),
   publications: Yup.string().required("Campo Requerido"),
@@ -19,8 +18,6 @@ const formSchema = Yup.object().shape({
   month: Yup.string().required("Campo Requerido"),
 });
 
-//Componente que se encarga de Renderizar el formulario de registro, con sus respectivas validaciones,
-//incluyendo la revision en base de datos de que no se este ingresando un nombre de usuario(nickname) repetido
 function Register() {
   let {
     register,
@@ -33,11 +30,16 @@ function Register() {
   });
 
   const [groupsList, setGroupsList] = useState([]);
+  const [fetchError, setFetchError] = useState(false);
 
   useEffect(() => {
     const getGroupsWrapper = async () => {
-      const groups = await getGroups();
-      setGroupsList(groups);
+      try {
+        const groups = await getGroups();
+        setGroupsList(groups);
+      } catch(e) {
+        setFetchError(true);
+      }
     };
     getGroupsWrapper();
   }, []);
@@ -66,6 +68,24 @@ function Register() {
     const currentMonth = new Date().getMonth();
     return currentMonth ? currentMonth - 1 : 11;
   };
+
+  if(fetchError) {
+    return (
+      <div className="loader-container">
+        <h3>Hubo un error, intenta de nuevo mas tarde</h3>
+      </div>
+    )
+  }
+
+  if(groupsList.length === 0) {
+    return (
+      <div className="loader-container">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Cargando...</span>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <Container>
