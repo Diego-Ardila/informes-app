@@ -1,7 +1,5 @@
 # Class Chat Kuepa Edutech
 
-Proyecto Full Stack Realizado con React, Express, Socket.io y Mongo DB.
-
 Para ejercer buenas practicas en el proyecto decidí usar variables de entorno las cuales especifico a continuacion para que se pueda correr la aplicacion sin problemas:
 
 ## Front end : 
