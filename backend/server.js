@@ -7,7 +7,6 @@ const cors = require("cors");
 const userRouter = require("./routes/user.routes");
 const groupsRouter = require("./routes/groups.routes");
 const reportRouter = require("./routes/report.routes");
-const Message = require("./models/message.model");
 
 //Configuracion de la base de datos
 const db = require("./connection/dbConnection");
